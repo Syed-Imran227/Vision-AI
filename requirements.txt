@@ -1,0 +1,13 @@
+SpeechRecognition
+pyaudio
+pyttsx3
+selenium
+pyautogui
+pytesseract
+pillow
+beautifulsoup4
+google-genai
+python-dotenv
+PyPDF2
+opencv-python
+numpy
