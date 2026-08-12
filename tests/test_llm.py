@@ -1,4 +1,4 @@
-from llm_client import LLMClient
+from core.llm_client import LLMClient
 import sys
 
 try:

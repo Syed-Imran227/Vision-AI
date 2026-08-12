@@ -1,10 +1,10 @@
 import time
 import re
-from system_control import *
-from screen_reader import read_screen_text
-from smart_screen_navigator import find_and_click
-from screen_describer import describe_screen
-from llm_client import LLMClient
+from system.system_control import *
+from vision.screen_reader import read_screen_text
+from vision.smart_screen_navigator import find_and_click
+from vision.screen_describer import describe_screen
+from core.llm_client import LLMClient
 
 # Initialize LLM Client
 llm = LLMClient()
@@ -22,7 +22,7 @@ def set_typing_mode(active: bool):
     _typing_mode_active = active
 
 
-from sound_engine import play_success, play_error
+from audio.sound_engine import play_success, play_error
 
 def process_command(cmd: str, ui_obj=None) -> str:
     cmd = cmd.lower().strip()
@@ -106,11 +106,11 @@ def process_command(cmd: str, ui_obj=None) -> str:
 
     elif action == "search":
         query = intent.get("query", "")
-        from browser_control import is_browser_open
+        from web.browser_control import is_browser_open
         
         if is_browser_open():
             # Context-aware: Search inside the current browser
-            from web_agent import WebAgent
+            from web.web_agent import WebAgent
             agent = WebAgent()
             try:
                 hide_ui()
@@ -136,7 +136,7 @@ def process_command(cmd: str, ui_obj=None) -> str:
     elif action == "summarize" or action == "simplify":
         hide_ui()
         # Use Visual Summarization as requested (OCR-like but smarter)
-        from screen_describer import summarize_screen
+        from vision.screen_describer import summarize_screen
         summary = summarize_screen()
         
         show_ui()
@@ -150,13 +150,13 @@ def process_command(cmd: str, ui_obj=None) -> str:
         path = intent.get("path", "")
         if not path:
             return "Please specify which PDF file to read."
-        from pdf_reader import read_pdf
+        from vision.pdf_reader import read_pdf
         text = read_pdf(path)
         return f"Read {len(text)} characters from PDF. I can summarize it if you like."
 
     elif action == "browser_action":
         goal = intent.get("goal", "")
-        from web_agent import WebAgent
+        from web.web_agent import WebAgent
         agent = WebAgent()
         try:
             hide_ui()
@@ -170,7 +170,7 @@ def process_command(cmd: str, ui_obj=None) -> str:
     elif action == "exit":
         # Clean up browser before exiting
         try:
-            from browser_control import _driver
+            from web.browser_control import _driver
             if _driver is not None:
                 _driver.quit()
         except Exception as e:
@@ -185,12 +185,12 @@ def process_command(cmd: str, ui_obj=None) -> str:
         return intent.get("response", "I didn't understand that.")
 
     elif action == "where_am_i":
-        from system_control import get_active_window_title
+        from system.system_control import get_active_window_title
         window_title = get_active_window_title()
         
         # If Chrome is active, get more details
         if "Chrome" in window_title or "Edge" in window_title:
-            from browser_control import is_browser_open, get_page_title
+            from web.browser_control import is_browser_open, get_page_title
             if is_browser_open():
                 page_title = get_page_title()
                 play_success()
@@ -201,7 +201,7 @@ def process_command(cmd: str, ui_obj=None) -> str:
 
     elif action == "keyboard_action":
         k_type = intent.get("type", "")
-        from system_control import switch_window, close_tab, go_back, copy_selection, paste_selection
+        from system.system_control import switch_window, close_tab, go_back, copy_selection, paste_selection
         
         if k_type == "switch_window":
             switch_window()

@@ -1,6 +1,6 @@
 import json
-from llm_client import LLMClient
-from browser_control import get_accessibility_tree, interact_with_element, get_page_text_content, open_website, get_page_headings, get_page_links
+from core.llm_client import LLMClient
+from web.browser_control import get_accessibility_tree, interact_with_element, get_page_text_content, open_website, get_page_headings, get_page_links
 
 class WebAgent:
     def __init__(self):

@@ -2,9 +2,9 @@
 
 import threading
 import sys
-from ui_window import create_ui
-from speech_engine import speak, listen_continuous
-from command_handler import process_command
+from ui.ui_window import create_ui
+from audio.speech_engine import speak, listen_continuous
+from core.command_handler import process_command
 
 # Global shutdown flag
 _shutdown_requested = False
@@ -14,7 +14,7 @@ def request_shutdown():
     global _shutdown_requested
     _shutdown_requested = True
 
-from sound_engine import play_listening_start, play_listening_end, play_processing
+from audio.sound_engine import play_listening_start, play_listening_end, play_processing
 
 def nova_loop(ui):
     speak("Hello sir, Vision AI online. I am listening.")
@@ -79,7 +79,7 @@ def main():
 def cleanup_resources():
     """Clean up browser and other resources before exit"""
     try:
-        from browser_control import _driver
+        from web.browser_control import _driver
         if _driver is not None:
             _driver.quit()
             print("Browser closed successfully")

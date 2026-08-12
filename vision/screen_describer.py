@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import os
 from PIL import Image
-from llm_client import LLMClient
+from core.llm_client import LLMClient
 
 # Initialize LLM
 llm = LLMClient()

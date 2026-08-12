@@ -33,7 +33,7 @@ def listen_continuous():
     with mic as source:
         r.adjust_for_ambient_noise(source, duration=0.5)
         print("Nova always-listening…")
-        from sound_engine import play_listening_start
+        from audio.sound_engine import play_listening_start
         play_listening_start()
 
     while True:
